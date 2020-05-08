@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Praktikum 1", "Praktikum 1\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Praktikum 2", "Praktikum 2\Praktikum 2.vcxproj", "{454568C3-C568-48A4-8B9F-C8B76C0426F7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Praktium 3", "Praktium 3\Praktium 3.vcxproj", "{9473DED7-2641-4BCA-B4ED-890032ADCA12}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Praktikum 3", "Praktikum 3\Praktikum 3.vcxproj", "{9473DED7-2641-4BCA-B4ED-890032ADCA12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Praktikum 4", "Praktikum 4\Praktikum 4.vcxproj", "{FF37C8C4-D769-43D9-BD3D-63150D5FB29E}"
 EndProject
