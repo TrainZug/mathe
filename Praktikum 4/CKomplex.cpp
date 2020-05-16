@@ -2,7 +2,14 @@
 #include <cmath>
 using namespace std;
 
-CKomplex::CKomplex (double a, double b) : a{a}, b{b} {
+CKomplex::CKomplex () {
+	a = 0;
+	b = 0;
+}
+
+CKomplex::CKomplex (double a1, double b1) {
+	a = a1;
+	b = b1;
 }
 
 CKomplex::CKomplex (double phi) {
@@ -23,19 +30,15 @@ double CKomplex::abs () {
 }
 
 CKomplex operator+ (CKomplex c1, CKomplex c2) {
-	const double a = c1.re() + c2.re();
-	const double b = c1.im() + c2.im();
-	return CKomplex(a, b);
+	return CKomplex(c1.re() + c2.re(), c1.im() + c2.im());
 }
 
 CKomplex operator* (CKomplex c1, CKomplex c2) {
-	const double a = c1.re() * c2.re();
-	const double b = c1.im() * c2.im();
+	const double a = c1.re() * c2.re() + c1.im() * c2.im() * (-1);
+	const double b = c1.re() * c2.im() + c1.im() * c2.re();
 	return CKomplex(a, b);
 }
 
 CKomplex operator* (double d, CKomplex c2) {
-	const double a = c2.re() * d;
-	const double b = c2.im() * d;
-	return CKomplex(a, b);
+	return CKomplex(d * c2.re(), d * c2.im());
 }

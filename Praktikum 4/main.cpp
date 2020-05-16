@@ -1,16 +1,81 @@
 #include <fstream>
+#include <iostream>
 #include <vector>
+#include <cmath>
 #include "CKomplex.h"
+
 using namespace std;
-vector<CKomplex> werte_einlesen (const char* dateiname);
-void werte_ausgeben (const char* dateiname, vector<CKomplex> werte, double epsilon);
+
+vector<CKomplex> werte_einlesen (string dateiname);
+void werte_ausgeben (string dateiname, vector<CKomplex> werte, double epsilon = -1.0);
+vector<CKomplex> ft (vector<CKomplex> werte, bool hin);
+double max_differenz (vector<CKomplex>, vector<CKomplex>);
 
 int main () {
-	vector<CKomplex> werte = werte_einlesen("Daten_original.txt");
+	// originale daten
+	vector<CKomplex> daten = werte_einlesen("Daten_original.txt");
+
+	// erstes mal transformieren
+	vector<CKomplex> hin = ft(daten, true);
+
+	// ausgeben mit verschiedenen epsilon
+	werte_ausgeben("Hin0.txt", hin);
+	werte_ausgeben("Hin1.txt", hin, 0.1);
+	werte_ausgeben("Hin2.txt", hin, 1.0);
+
+	// einlesen
+	vector<CKomplex> zurueck = werte_einlesen("Hin0.txt");
+	// zurück transformieren
+	zurueck = ft(zurueck, false);
+	// maximale differenz zwischen werten ausgeben
+	cout << "Maximale Abweichung bei epsilon = -1.0: " << max_differenz(daten, zurueck) << endl;
+
+	zurueck = werte_einlesen("Hin1.txt");
+	zurueck = ft(zurueck, false);
+	cout << "Maximale Abweichung bei epsilon = 0.1:  " << max_differenz(daten, zurueck) << endl;
+
+	zurueck = werte_einlesen("Hin2.txt");
+	zurueck = ft(zurueck, false);
+	cout << "Maximale Abweichung bei epsilon = 1.0:  " << max_differenz(daten, zurueck) << endl;
+
 	return 0;
 }
 
-vector<CKomplex> werte_einlesen (const char* dateiname) {
+vector<CKomplex> ft (vector<CKomplex> werte, bool hin) {
+	vector<CKomplex> ergebnis;
+	int N   = werte.size();
+	int way = hin ? 1 : -1;
+
+	// über alle werte loopen
+	for (int n = 0; n < N; n++) {
+		CKomplex tmp_sum;
+		// werte aufsummieren mit Formel:
+		// hin: (2*pi*k*n) / N
+		// zurück: -(2*pi*k*n) / N
+		// und die Summe multiplizieren mit 1/sqrt(N)
+		for (int k = 0; k < N; k++) {
+			tmp_sum = tmp_sum + (werte[k] * CKomplex((way * (2 * 3.141592653589793238463 * k * n)) / N));
+		}
+		ergebnis.push_back((1.0 / sqrt(N)) * tmp_sum);
+	}
+	return ergebnis;
+}
+
+double max_differenz (vector<CKomplex> a, vector<CKomplex> b) {
+	// max ist erstmal erstes element
+	double max = abs(a[0].re() - b[0].re());
+
+	for (int i = 0; i < a.size(); ++i) {
+		double differenz = abs(a[i].re() - b[i].re());
+
+		if (differenz > max) {
+			max = differenz;
+		}
+	}
+	return max;
+}
+
+vector<CKomplex> werte_einlesen (const string dateiname) {
 	int i, N, idx;
 	double re, im;
 	vector<CKomplex> werte;
@@ -36,7 +101,7 @@ vector<CKomplex> werte_einlesen (const char* dateiname) {
 	return werte;
 }
 
-void werte_ausgeben (const char* dateiname, vector<CKomplex> werte, double epsilon) {
+void werte_ausgeben (const string dateiname, vector<CKomplex> werte, double epsilon) {
 	int i;
 	int N = werte.size();
 	// File oeffnen
