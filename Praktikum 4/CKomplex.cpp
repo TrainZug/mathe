@@ -33,6 +33,10 @@ CKomplex operator+ (CKomplex c1, CKomplex c2) {
 	return CKomplex(c1.re() + c2.re(), c1.im() + c2.im());
 }
 
+CKomplex operator- (CKomplex c1, CKomplex c2) {
+	return CKomplex(c1.re() - c2.re(), c1.im() - c2.im());
+}
+
 CKomplex operator* (CKomplex c1, CKomplex c2) {
 	const double a = c1.re() * c2.re() + c1.im() * c2.im() * (-1);
 	const double b = c1.re() * c2.im() + c1.im() * c2.re();

@@ -25,6 +25,7 @@ int main () {
 
 	// einlesen
 	vector<CKomplex> zurueck = werte_einlesen("Hin0.txt");
+
 	// zurück transformieren
 	zurueck = ft(zurueck, false);
 	// maximale differenz zwischen werten ausgeben
@@ -43,8 +44,9 @@ int main () {
 
 vector<CKomplex> ft (vector<CKomplex> werte, bool hin) {
 	vector<CKomplex> ergebnis;
-	int N   = werte.size();
-	int way = hin ? 1 : -1;
+	int N        = werte.size();
+	int richtung = hin ? 1 : -1;
+	double sqrtN = 1.0 / sqrt(N);
 
 	// über alle werte loopen
 	for (int n = 0; n < N; n++) {
@@ -54,19 +56,18 @@ vector<CKomplex> ft (vector<CKomplex> werte, bool hin) {
 		// zurück: -(2*pi*k*n) / N
 		// und die Summe multiplizieren mit 1/sqrt(N)
 		for (int k = 0; k < N; k++) {
-			tmp_sum = tmp_sum + (werte[k] * CKomplex((way * (2 * 3.141592653589793238463 * k * n)) / N));
+			tmp_sum = tmp_sum + (werte[k] * CKomplex((richtung * (2 * 3.141592653589793238463 * k * n)) / N));
 		}
-		ergebnis.push_back((1.0 / sqrt(N)) * tmp_sum);
+		ergebnis.push_back(sqrtN * tmp_sum);
 	}
 	return ergebnis;
 }
 
 double max_differenz (vector<CKomplex> a, vector<CKomplex> b) {
-	// max ist erstmal erstes element
-	double max = abs(a[0].re() - b[0].re());
+	double max = abs((a[0] - b[0]).abs());
 
-	for (int i = 0; i < a.size(); ++i) {
-		double differenz = abs(a[i].re() - b[i].re());
+	for (int i = 1; i < a.size(); i++) {
+		double differenz = abs((a[i] - b[i]).abs());
 
 		if (differenz > max) {
 			max = differenz;

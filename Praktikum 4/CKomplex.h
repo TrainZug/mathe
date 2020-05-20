@@ -11,5 +11,6 @@ class CKomplex {
 };
 
 CKomplex operator+ (CKomplex c1, CKomplex c2);
+CKomplex operator- (CKomplex c1, CKomplex c2);
 CKomplex operator* (CKomplex c1, CKomplex c2);
 CKomplex operator* (double d, CKomplex c2);
